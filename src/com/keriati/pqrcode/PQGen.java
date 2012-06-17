@@ -29,7 +29,7 @@ public class PQGen {
             File file = new File(this.options.getOutput());
 
             try {
-                MatrixToImageWriter.writeToFile(matrix, "PNG", file);
+                MatrixToImageWriter.writeToFile(matrix, this.options.getFormat(), file);
                 System.out.println("Printing to: " + file.getAbsolutePath());
             } catch (IOException e) {
                 System.out.println(e.getMessage());

@@ -4,54 +4,62 @@ import org.apache.commons.cli.*;
 
 public class PQOptions {
 
-    private int height = 250;
-    private int width = 250;
-    private String data = null;
-    private String output = null;
+    private int height;
+    private int width;
+    private String data;
+    private String output;
+    private String format;
 
-    public PQOptions() {
-    }
+    public PQOptions() {}
 
     public void parse(String[] args) {
         Options options = new Options();
 
-        options.addOption(OptionBuilder.withLongOpt("width")
-                .withDescription("Output file width in pixels.")
+        options.addOption(OptionBuilder
+                .withLongOpt("width")
+                .withDescription("Output file width in pixels. Default: 250")
                 .hasArgs(1)
                 .withArgName("width")
                 .create("w"));
 
-        options.addOption(OptionBuilder.withLongOpt("height")
-                .withDescription("Output file height in pixels.")
+        options.addOption(OptionBuilder
+                .withLongOpt("height")
+                .withDescription("Output file height in pixels. Default: 250")
                 .hasArgs(1)
                 .withArgName("height")
                 .create("h"));
 
-        options.addOption(OptionBuilder.withLongOpt("output")
-                .withDescription("Output file name.")
+        options.addOption(OptionBuilder
+                .isRequired()
+                .withLongOpt("output")
+                .withDescription("Output file name. (required)")
                 .hasArgs(1)
                 .withArgName("output")
                 .create("o"));
 
-        options.addOption(OptionBuilder.withLongOpt("data")
-                .withDescription("Data to encode.")
+        options.addOption(OptionBuilder
+                .isRequired()
+                .withLongOpt("data")
+                .withDescription("Data to encode. (required)")
                 .hasArgs(1)
                 .withArgName("data")
                 .create("d"));
+
+        options.addOption(OptionBuilder
+                .withLongOpt("format")
+                .withDescription("Image format. Supported values: JPEG, PNG, GIF, BMP, WBMP. Default is: PNG")
+                .hasArgs(1)
+                .withArgName("format")
+                .create("f"));
 
         GnuParser parser = new GnuParser();
 
         try {
             CommandLine line = parser.parse(options, args);
 
-            if (line.hasOption("width")) {
-                width = Integer.parseInt(line.getOptionValue("width"));
-            }
-
-            if (line.hasOption("height")) {
-                height = Integer.parseInt(line.getOptionValue("height"));
-            }
-
+            width = Integer.parseInt(line.getOptionValue("width", "250"));
+            height = Integer.parseInt(line.getOptionValue("height", "250"));
+            format = line.getOptionValue("format", "PNG");
             if (line.hasOption("output")) {
                 output = line.getOptionValue("output");
             }
@@ -85,5 +93,9 @@ public class PQOptions {
 
     public String getOutput() {
         return output;
+    }
+
+    public String getFormat() {
+        return format;
     }
 }
