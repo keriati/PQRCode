@@ -6,6 +6,7 @@ public class PQOptions {
 
     private int height;
     private int width;
+    private int quietZoneSize;
     private String data;
     private String output;
     private String format;
@@ -52,6 +53,13 @@ public class PQOptions {
                 .withArgName("format")
                 .create("f"));
 
+        options.addOption(OptionBuilder
+                .withLongOpt("quietZoneSize")
+                .withDescription("White border size arround the QR Code. Default: 4.")
+                .hasArgs(1)
+                .withArgName("quietZoneSize")
+                .create("q"));
+
         GnuParser parser = new GnuParser();
 
         try {
@@ -59,7 +67,9 @@ public class PQOptions {
 
             width = Integer.parseInt(line.getOptionValue("width", "250"));
             height = Integer.parseInt(line.getOptionValue("height", "250"));
+            quietZoneSize = Integer.parseInt(line.getOptionValue("quietZoneSize", "4"));
             format = line.getOptionValue("format", "PNG");
+
             if (line.hasOption("output")) {
                 output = line.getOptionValue("output");
             }
@@ -85,6 +95,10 @@ public class PQOptions {
 
     public int getWidth() {
         return width;
+    }
+
+    public int getQuietZoneSize() {
+        return quietZoneSize;
     }
 
     public String getData() {

@@ -2,7 +2,6 @@ package com.keriati.pqrcode;
 
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +17,9 @@ public class PQGen {
     public void generate() {
         if (this.options != null) {
             BitMatrix matrix = null;
-            com.google.zxing.Writer writer = new QRCodeWriter();
+            com.keriati.pqrcode.PQRCodeWriter writer = new PQRCodeWriter();
+
+            writer.setQuietZoneSize(this.options.getQuietZoneSize());
 
             try {
                 matrix = writer.encode(this.options.getData(), com.google.zxing.BarcodeFormat.QR_CODE, this.options.getWidth(), this.options.getHeight());
