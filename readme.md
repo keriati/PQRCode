@@ -16,6 +16,8 @@ PQRCode.jar is a small portable and basic QR Code generator. It uses the ZXing l
     java -jar PQRCode.jar -d http://github.com -o github.png
     java -jar PQRCode.jar -d http://github.com -o github.jpg -f JPEG -w 1000 -h 1000
 
+See the "example" ant job in build.xml to generate QR Codes from text file "test.txt".
+
 Author: Attila Kerekes @keriati
 
 ## LICENSE ##

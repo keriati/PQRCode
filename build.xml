@@ -1,0 +1,51 @@
+<project name="PQRCode" default="dist" basedir=".">
+
+    <property name="dir.build" location="build"/>
+    <property name="dir.src" location="src"/>
+    <property name="dir.out" location="build/out"/>
+    <property name="dir.mf" location="src/META-INF"/>
+
+    <target name="-clean">
+        <delete dir="${dir.out}"/>
+        <delete file="${dir.build}/PQRCode.jar"/>
+    </target>
+
+    <target name="-compile">
+        <mkdir dir="${dir.out}"/>
+        <javac srcdir="${dir.src}" destdir="${dir.out}" />
+    </target>
+
+    <target name="-jar">
+        <jar destfile="${dir.build}/PQRCode.jar"
+             basedir="${dir.out}"
+             includes="**/*.class"
+             manifest="${dir.mf}/MANIFEST.MF"/>
+    </target>
+
+    <target name="dist" depends="-clean,-compile,-jar" />
+
+    <target name="example">
+
+        <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+        <var name="x" value="0"/>
+
+        <for param="line">
+            <tokens>
+                <file file="test.txt"/>
+            </tokens>
+            <sequential>
+                <exec executable="java">
+                    <arg value="-jar"/>
+                    <arg value="build/PQRCode.jar"/>
+                    <arg value="-o"/>
+                    <arg value="out${x}.png"/>
+                    <arg value="-d"/>
+                    <arg value="@{line}"/>
+                </exec>
+                <math result="x" operand1="${x}" operation="+" operand2="1" datatype="int"/>
+            </sequential>
+        </for>
+
+    </target>
+</project>
